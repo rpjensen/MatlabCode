@@ -1,12 +1,7 @@
 function [x] = partialPivot(Aorig, b)
 %Does gaussian elimination with patial pivoting to avoid swamping.
     A = Aorig;%this allows us to see what A looks like during debugging in the variable consule by making a copy
-    [m, n]= size(U);
-    %exit program if matrix isn't square
-    if m ~= n
-        fprintf('The program is only designed for n x n square matrices');
-        return;
-    end
+    [~, n]= size(A);
     for colJ = 1:n %for each column we have a partial pivot
         pivotIndex = colJ;%same as the pivot for each column
         maxRow = pivotIndex;%init to first row
@@ -30,7 +25,7 @@ function [x] = partialPivot(Aorig, b)
             for indexJ = colJ + 1 : n;%the algebra carrys through the whole row
                 A(rowI, indexJ) = A(rowI, indexJ) - mult * A(pivotIndex, indexJ);%each row equals itself - the multiplier times the value from the pivot row
             end
-            b(rowI) = b(rowI) - mult * b(pivotIndex);% do the same algebra for the b vector as well
+            b(rowI) = b(rowI) - mult * b(pivotIndex);% do the same algebra for the b vector
         end
     end
     x = zeros(1, n);%init a new vector the same length as the matrix dimensions
