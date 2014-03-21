@@ -1,3 +1,4 @@
+
 function [L, U, P] = LUPPFactor(A)
 %Factor a n x n matrix A into L,U using partial pivot row swaps that are 
 %captured using the permutation matrix P
@@ -27,8 +28,14 @@ function [L, U, P] = LUPPFactor(A)
             tempRow = P(pivotIndex, :);%execute swap on P
             P(pivotIndex, :) = P(maxRow, :);
             P(maxRow, :) = tempRow;
-            %After doing a test case I have found out that you do not
-            %permutate L
+            %this is the part that tripped me up most on this problem
+            %when we switch a row we want to swap all previously stored
+            %multipliers to the left of the pivot column.  Or we could
+            %start with a matrix of zeros, fill in the multipliers, swap
+            %the whole rows and hard code a diagonal of ones.
+            tempRow = L(pivotIndex, 1:pivotIndex - 1);
+            L(pivotIndex, 1:pivotIndex - 1) = L(maxRow, 1:pivotIndex - 1);
+            L(maxRow, 1:pivotIndex - 1) = tempRow;
         end
         for rowI = pivotIndex + 1 : n %for each row under the pivot
             mult = U(rowI, pivotIndex) / U(pivotIndex, pivotIndex);%each row has a multiplier

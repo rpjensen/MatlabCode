@@ -1,7 +1,7 @@
 function [x] = partialPivot(Aorig, b)
 %Does gaussian elimination with patial pivoting to avoid swamping.
     A = Aorig;%this allows us to see what A looks like during debugging in the variable consule by making a copy
-    [m, n]= size(U);
+    [m, n]= size(A);
     %exit program if matrix isn't square
     if m ~= n
         fprintf('The program is only designed for n x n square matrices');
