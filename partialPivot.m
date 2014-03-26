@@ -28,7 +28,8 @@ function [x] = partialPivot(Aorig, b)
             mult = A(rowI, pivotIndex) / A(pivotIndex, pivotIndex);%each row has its own mulitpiler
             A(rowI, pivotIndex) = 0;%first cell is zero by design
             for indexJ = colJ + 1 : n;%the algebra carrys through the whole row
-                A(rowI, indexJ) = A(rowI, indexJ) - mult * A(pivotIndex, indexJ);%each row equals itself - the multiplier times the value from the pivot row
+                A(rowI, indexJ) = A(rowI, indexJ) - mult * A(pivotIndex, indexJ);
+                %each row equals itself - the multiplier times the value from the pivot row
             end
             b(rowI) = b(rowI) - mult * b(pivotIndex);% do the same algebra for the b vector as well
         end
@@ -36,10 +37,12 @@ function [x] = partialPivot(Aorig, b)
     x = zeros(1, n);%init a new vector the same length as the matrix dimensions
     x(n) = b(n) / A(n,n);%first solution of the backsolve
     for i = n - 1: -1: 1%backsolve.....backwards through the solution vector
-        for j = i + 1 : n%take the orgiginal sum and minus the previous solutions * their cooresponding A value in this row
+        for j = i + 1 : n
+            %take the orgiginal sum and minus the previous solutions * their cooresponding A value in this row
             x(i) = x(i) - A(i, j) * x(j);
         end
-        x(i) = (x(i)+ b(i)) / (A(i,i));%add the constant b value and divide by the cooresponding A value of the given solution
+        x(i) = (x(i)+ b(i)) / (A(i,i));
+        %add the constant b value and divide by the cooresponding A value of the given solution
     end
     x = x';%make x a vertical vector
  
