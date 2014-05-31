@@ -19,13 +19,14 @@ refAngle = mod(oldAngle,2*pi);
 
 % If this angle is still greater than pi, we know sin will be negative.
 % Subtract from 2*pi, since we our reference angle must be less than pi
-if refAngle > pi
-    refAngle = 2*pi - refAngle;
+if refAngle > pi/2 && refAngle < 3*pi/2
+    refAngle = abs(pi - refAngle); %due to the symmetry of cosine around PI
     theSign = -1;
+elseif refAngle > 3*pi/2
+    refAngle = 2*pi - refAngle;%Due to symmetry of cosine around 2*PI
+else
+    %We already have the angle
 end
 
-% Reference angles are always between 0 and pi/2, so we correct for that.
-if refAngle > pi/2
-    refAngle = pi - refAngle;
-end
+
 
